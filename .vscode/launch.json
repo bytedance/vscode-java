@@ -1,0 +1,150 @@
+// A launch configuration that compiles the extension and then opens it inside a new window
+{
+	"version": "0.1.0",
+	"configurations": [
+		{
+			"name": "Launch Extension",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"debugWebviews": true,
+			"args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
+			"env": {
+				"DEBUG_VSCODE_JAVA":"true",
+				"VSCODE_REDHAT_TELEMETRY_DEBUG":"true"
+			},
+			"stopOnEntry": false,
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/dist/**/*.js" ],
+			"preLaunchTask": "npm: watch",
+			"rendererDebugOptions": {
+				"urlFilter": "*redhat.java*",
+				"sourceMaps": true,
+			}
+		},
+		{
+			"name": "Launch Extension - Remote Server",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
+			"stopOnEntry": false,
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/dist/**/*.js" ],
+			"env": {
+				"JDTLS_SERVER_PORT": "3333",
+				"DEBUG_VSCODE_JAVA":"true",
+				"VSCODE_REDHAT_TELEMETRY_DEBUG":"true"
+			},
+			"preLaunchTask": "npm: watch"
+		},
+		{
+			"name": "Launch Extension - JDTLS Client",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"debugWebviews": true,
+			"args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
+			"stopOnEntry": false,
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/dist/**/*.js" ],
+			"env": {
+				"JDTLS_CLIENT_PORT": "5036",
+				"DEBUG_VSCODE_JAVA":"true",
+				"VSCODE_REDHAT_TELEMETRY_DEBUG":"true"
+			},
+			"preLaunchTask": "npm: watch",
+			"rendererDebugOptions": {
+				"urlFilter": "*redhat.java*",
+				"sourceMaps": true,
+			}
+		},
+		{
+			"name": "Launch Extension - SyntaxLS Client",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
+			"stopOnEntry": false,
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/dist/**/*.js" ],
+			"env": {
+				"SYNTAXLS_CLIENT_PORT": "5037",
+				"DEBUG_VSCODE_JAVA":"true",
+				"VSCODE_REDHAT_TELEMETRY_DEBUG":"true"
+			},
+			"preLaunchTask": "npm: watch"
+		},
+		{
+			"name": "Launch Extension - Hybrid Clients",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
+			"stopOnEntry": false,
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/dist/**/*.js" ],
+			"env": {
+				"JDTLS_CLIENT_PORT": "5036",
+				"SYNTAXLS_CLIENT_PORT": "5037",
+				"DEBUG_VSCODE_JAVA":"true",
+				"VSCODE_REDHAT_TELEMETRY_DEBUG":"true"
+			},
+			"preLaunchTask": "npm: watch"
+		},
+		{
+			"name": "Launch Tests - Standard Mode",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"${workspaceFolder}/test-temp/",
+				"--disable-extensions",
+				"--extensionDevelopmentPath=${workspaceRoot}",
+				"--extensionTestsPath=${workspaceRoot}/out/test/standard-mode-suite"
+			],
+			"stopOnEntry": false,
+			"sourceMaps": true,
+			"outFiles": ["${workspaceRoot}/out/**/*.js"],
+			"preLaunchTask": "prepareStandardTest",
+			"postDebugTask": "cleanTestFolder"
+		},
+		{
+			"name": "Launch Tests - Lightweight Mode",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"${workspaceFolder}/test-temp/",
+				"--disable-extensions",
+				"--extensionDevelopmentPath=${workspaceRoot}",
+				"--extensionTestsPath=${workspaceRoot}/out/test/lightweight-mode-suite"
+			],
+			"stopOnEntry": false,
+			"sourceMaps": true,
+			"outFiles": ["${workspaceRoot}/out/**/*.js"],
+			"preLaunchTask": "prepareLightweightTest",
+			"postDebugTask": "cleanTestFolder"
+		},
+		{
+			"args": [
+				"${input:gulpTask}"
+			],
+			"name": "Launch Gulp Task",
+			"program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"type": "node"
+		}
+	],
+	"inputs": [
+		{
+			"id": "gulpTask",
+			"type": "promptString",
+			"description": "Name of the Gulp task to execute",
+			"default": "download_jre"
+		}
+	]
+}
